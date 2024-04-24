@@ -1,0 +1,22 @@
+<app-hologram-creator (addHologramEvent)="addHologram($event)" />
+<!-- <app-confirm-dialog *ngIf="selectedHologram" [hologram]="selectedHologram" (confirm)="onConfirm($event)"/> -->
+<app-confirm-dialog [isOpen]="isConfirmDialogOpen" [hologram]="selectedHologram" (confirm)="onConfirm($event)" />
+<clr-datagrid>
+  <clr-dg-column [clrDgField]="'no'" [clrDgColType]="'number'">Id </clr-dg-column>
+  <clr-dg-column [clrDgField]="'name'">Name</clr-dg-column>
+  <clr-dg-column [clrDgField]="'weight'" [clrDgColType]="'number'">Superpower</clr-dg-column>
+  <clr-dg-column [clrDgField]="'superpower'">Weight (kg)</clr-dg-column>
+  <clr-dg-column [clrDgField]="'extinctsince'" [clrDgColType]="'number'">Extinct Since</clr-dg-column>
+  <clr-dg-row *clrDgItems="let hologram of holograms">
+    <clr-dg-action-overflow>
+      <button class="action-item" (click)="removeHologram(hologram)">Remove</button>
+      <button class="action-item" >Edit</button>
+    </clr-dg-action-overflow>
+    <clr-dg-cell>{{hologram.id}}</clr-dg-cell>
+    <clr-dg-cell>{{hologram.name}}</clr-dg-cell>
+    <clr-dg-cell>{{hologram.superPower}}</clr-dg-cell>
+    <clr-dg-cell>{{hologram.weight}}</clr-dg-cell>
+    <clr-dg-cell>{{hologram.extinctSince}}</clr-dg-cell>
+  </clr-dg-row>
+  <clr-dg-footer>{{holograms.length}} holograms</clr-dg-footer>
+</clr-datagrid>

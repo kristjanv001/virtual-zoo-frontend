@@ -1,0 +1,10 @@
+<clr-modal [(clrModalOpen)]="isOpen">
+  <h3 class="modal-title">Remove</h3>
+  <div class="modal-body">
+    <p>Are you sure you want to remove <span class="font-bold"> {{hologram?.name}}? </span> </p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline" (click)="disagree()">Cancel</button>
+    <button type="button" class="btn btn-danger" (click)="agree()">Remove</button>
+  </div>
+</clr-modal>

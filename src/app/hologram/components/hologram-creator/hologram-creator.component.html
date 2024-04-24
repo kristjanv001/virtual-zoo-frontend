@@ -1,0 +1,47 @@
+<clr-modal [(clrModalOpen)]="opened">
+  <h3 class="modal-title">Add a New Hologram</h3>
+
+  <div class="modal-body">
+    <form clrForm [formGroup]="hologramForm">
+      <span class="clr-required-mark">Required Information</span>
+      <clr-input-container>
+        <label class="clr-required-mark">Name</label>
+        <input clrInput formControlName="name" />
+        <clr-control-error *clrIfError="'required'">This is a required field</clr-control-error>
+        <clr-control-error *clrIfError="'minlength'; error as err">
+          Must be at least {{ err.requiredLength }} characters
+        </clr-control-error>
+      </clr-input-container>
+
+      <clr-input-container>
+        <label class="clr-required-mark">Weight</label>
+        <input clrInput formControlName="weight" />
+        <clr-control-error *clrIfError="'required'">This is a required field</clr-control-error>
+        <clr-control-error *clrIfError="'minlength'; error as err">
+          Must be at least {{ err.requiredLength }} characters
+        </clr-control-error>
+      </clr-input-container>
+
+      <clr-input-container>
+        <label class="clr-required-mark">Superpower</label>
+        <input clrInput formControlName="superPower" />
+        <clr-control-error *clrIfError="'required'">This is a required field</clr-control-error>
+        <clr-control-error *clrIfError="'minlength'; error as err">
+          Must be at least {{ err.requiredLength }} characters
+        </clr-control-error>
+      </clr-input-container>
+
+      <clr-input-container>
+        <label>Extinct since</label>
+        <input clrInput formControlName="extinctSince" />
+      </clr-input-container>
+      <!-- <pre class="mt-6 text-xs text-blue-700">{{hologramForm.value | json}}</pre>
+      <pre class="mt-6 text-xs text-blue-700">{{hologramForm.invalid | json}}</pre> -->
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline" (click)="closeModal()">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="addHologram()">Create</button>
+  </div>
+</clr-modal>
+<button class="btn btn-primary" (click)="openModal()">New Hologram</button>
