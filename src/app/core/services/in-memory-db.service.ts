@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Hologram } from "../models/hologram";
-import { HologramModule } from "../../hologram/hologram.module";
+import { Hologram } from "../../hologram/models/hologram";
 
 @Injectable({
   providedIn: "root",
@@ -11,35 +10,39 @@ export class InMemoryDbService implements InMemoryDbService {
   createDb() {
     const holograms: Hologram[] = [
       {
-        no: 1,
+        id: 1,
         name: "T-Rex",
         weight: 8000,
         superPower: "Powerful jaws and sharp teeth",
-        extinctSince: 66,
+        extinctSince: "66 million years ago",
       },
       {
-        no: 2,
+        id: 2,
         name: "Mammoth",
         weight: 6000,
         superPower: "Thick fur for cold climates",
-        extinctSince: 4000,
+        extinctSince: "4000 years ago",
       },
       {
-        no: 3,
+        id: 3,
         name: "Dodo",
         weight: 10,
         superPower: "Flightless bird",
-        extinctSince: 1662,
+        extinctSince: "Late 17th century",
       },
       {
-        no: 4,
+        id: 4,
         name: "Sabre-toothed Cat",
         weight: 400,
         superPower: "Massive curved teeth for hunting",
-        extinctSince: 10000,
+        extinctSince: "Towards the end of the Pleistocene epoch",
       },
     ];
 
     return { holograms };
+  }
+
+  genId(holograms: Hologram[]): number {
+    return holograms.length > 0 ? Math.max(...holograms.map((hologram) => hologram.id)) + 1 : 11;
   }
 }
