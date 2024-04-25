@@ -6,7 +6,7 @@
       <span class="clr-required-mark">Required Information</span>
       <clr-input-container>
         <label class="clr-required-mark">Name</label>
-        <input clrInput formControlName="name" />
+        <input clrInput formControlName="name" placeholder="E.g., Dodo" />
         <clr-control-error *clrIfError="'required'">This is a required field</clr-control-error>
         <clr-control-error *clrIfError="'minlength'; error as err">
           Must be at least {{ err.requiredLength }} characters
@@ -15,10 +15,10 @@
 
       <clr-input-container>
         <label class="clr-required-mark">Weight</label>
-        <input clrInput formControlName="weight" />
+        <input clrInput formControlName="weight" type="number" />
         <clr-control-error *clrIfError="'required'">This is a required field</clr-control-error>
-        <clr-control-error *clrIfError="'minlength'; error as err">
-          Must be at least {{ err.requiredLength }} characters
+        <clr-control-error *clrIfError="'min'; error as err">
+          Must be at least {{ err.min }}
         </clr-control-error>
       </clr-input-container>
 
@@ -35,8 +35,6 @@
         <label>Extinct since</label>
         <input clrInput formControlName="extinctSince" />
       </clr-input-container>
-      <!-- <pre class="mt-6 text-xs text-blue-700">{{hologramForm.value | json}}</pre>
-      <pre class="mt-6 text-xs text-blue-700">{{hologramForm.invalid | json}}</pre> -->
     </form>
   </div>
   <div class="modal-footer">

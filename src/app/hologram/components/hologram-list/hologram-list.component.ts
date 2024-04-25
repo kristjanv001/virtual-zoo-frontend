@@ -10,7 +10,7 @@ import { Hologram } from "../../models/hologram";
 export class HologramListComponent implements OnInit {
   holograms: Hologram[] = [];
   isConfirmDialogOpen = false;
-  selectedHologram: Hologram | null = null
+  selectedHologram: Hologram | null = null;
 
   constructor(private hologramService: HologramService) {}
 
@@ -22,39 +22,24 @@ export class HologramListComponent implements OnInit {
     this.holograms.push(hologram);
   }
 
+  openConfirmDialog(hologram: Hologram) {
+    this.selectedHologram = hologram;
+    this.isConfirmDialogOpen = true;
+  }
 
-
-
-  // onConfirm and removeHologram need to be connected properly
-  //
-
-
-
-  onConfirm(confirmed: boolean) {
-    console.log("confirmed? ---> ", confirmed)
-    if (confirmed && this.selectedHologram) {
-      this.hologramService.deleteHologram(this.selectedHologram.id).subscribe((hologram) => {
-        this.holograms = this.holograms.filter((h) => h.id != hologram.id);
-      })
-    }
-
+  private closeConfirmDialog() {
     this.selectedHologram = null;
     this.isConfirmDialogOpen = false;
   }
 
-  removeHologram(hologram: Hologram) {
-    this.selectedHologram = hologram
-    this.isConfirmDialogOpen = true;
-
-    // this.hologramService.deleteHologram(id).subscribe((hologram) => {
-    //   this.holograms = this.holograms.filter((hologram) => hologram.id != id);
-    // });
-
-    // this.holograms = this.holograms.filter((hologram) => hologram.id != id)
-
-    // this.hologramService.addHologram(this.hologramForm.getRawValue() as Hologram).subscribe((hologram) => {
-    //   this.addHologramEvent.emit(hologram);
-    // });
+  onConfirm(confirmation: boolean) {
+    if (confirmation && this.selectedHologram) {
+      this.holograms = this.holograms.filter((h) => h.id !== this.selectedHologram!.id);
+      this.hologramService.deleteHologram(this.selectedHologram.id).subscribe();
+      this.closeConfirmDialog();
+    } else {
+      this.closeConfirmDialog();
+    }
   }
 
   private getHolograms(): void {
