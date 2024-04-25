@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { HttpClientModule } from "@angular/common/http";
 import { ReactiveFormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ClarityModule } from "@clr/angular";
@@ -9,7 +10,7 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
 
 @NgModule({
   declarations: [HologramListComponent, HologramCreatorComponent, ConfirmDialogComponent],
-  imports: [CommonModule, ClarityModule, BrowserAnimationsModule, ReactiveFormsModule],
+  imports: [CommonModule, ClarityModule, BrowserAnimationsModule, ReactiveFormsModule, HttpClientModule],
   exports: [HologramListComponent],
 })
 export class HologramModule {}

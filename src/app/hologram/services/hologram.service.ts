@@ -7,7 +7,8 @@ import { Observable, catchError, of, tap } from "rxjs";
   providedIn: "root",
 })
 export class HologramService {
-  private hologramsUrl = "api/holograms";
+  // private hologramsUrl = "api/holograms"; // for mock in-memory db
+  private hologramsUrl = "http://localhost:3000/holograms";
   private httpOptions = {
     headers: new HttpHeaders({ "Content-Type": "application/json" }),
   };
@@ -17,9 +18,9 @@ export class HologramService {
   getHolograms(): Observable<Hologram[]> {
     return this.http.get<Hologram[]>(this.hologramsUrl).pipe(
       tap((_) => {
-        console.log("fetched holograms");
+        console.log("Fetched holograms");
       }),
-      catchError(this.handleError<Hologram[]>("getHeroes", [])),
+      catchError(this.handleError<Hologram[]>("getHolograms", [])),
     );
   }
 
@@ -33,19 +34,19 @@ export class HologramService {
   }
 
   deleteHologram(id: number): Observable<Hologram> {
-      const url = `${this.hologramsUrl}/${id}`;
+    const url = `${this.hologramsUrl}/${id}`;
 
-      return this.http.delete<Hologram>(url, this.httpOptions).pipe(
-        tap(_ => {
-          console.log(`Deleted hologram with id: ${id}`)
-        }),
-        catchError(this.handleError<Hologram>('deleteHero'))
-      );
-    }
+    return this.http.delete<Hologram>(url, this.httpOptions).pipe(
+      tap((_) => {
+        console.log(`Deleted hologram with id: ${id}`);
+      }),
+      catchError(this.handleError<Hologram>("deleteHologram")),
+    );
+  }
 
   private handleError<T>(operation = "operation", result?: T) {
     return (error: any): Observable<T> => {
-      console.error(operation, error, "Failed to fetch Heroes");
+      console.error(operation, error, "Failed to fetch Holograms");
 
       return of(result as T);
     };
