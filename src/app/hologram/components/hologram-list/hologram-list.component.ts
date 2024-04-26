@@ -88,4 +88,8 @@ export class HologramListComponent implements OnInit {
       }),
     );
   }
+
+  trackById(index: number, value: Hologram) {
+    return value.id;
+  }
 }

@@ -1,5 +1,4 @@
 <button class="btn btn-primary" (click)="openComposerModal()">Create Hologram</button>
-
 <app-hologram-composer
   *ngIf="isComposerModalOpen"
   [isOpen]="isComposerModalOpen"
@@ -9,7 +8,6 @@
   (editHologramEvent)="editHologram($event)"
 />
 
-
 <app-confirm-dialog [isOpen]="isRemoveDialogOpen" [hologram]="selectedHologram" (confirm)="onRemoveConfirm($event)" />
 <clr-datagrid>
   <clr-dg-column>Id </clr-dg-column>
@@ -17,7 +15,8 @@
   <clr-dg-column>Superpower</clr-dg-column>
   <clr-dg-column [clrDgField]="'weight'">Weight (kg)</clr-dg-column>
   <clr-dg-column>Extinct Since</clr-dg-column>
-  <clr-dg-row *clrDgItems="let hologram of holograms">
+
+  <clr-dg-row *clrDgItems="let hologram of holograms ; trackBy: trackById">
     <clr-dg-action-overflow>
       <button class="action-item" (click)="openRemoveDialog(hologram)">Remove</button>
       <button class="action-item" (click)="openComposerModal(hologram)">Edit</button>
@@ -28,5 +27,6 @@
     <clr-dg-cell>{{hologram.weight}}</clr-dg-cell>
     <clr-dg-cell>{{hologram?.extinctSince}}</clr-dg-cell>
   </clr-dg-row>
+
   <clr-dg-footer>{{holograms.length}} holograms</clr-dg-footer>
 </clr-datagrid>
