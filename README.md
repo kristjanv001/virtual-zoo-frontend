@@ -16,6 +16,6 @@ Users can add, edit and delete virtual animals called "holograms".
 1. Download and run the backend part from:
 https://github.com/kristjanv001/virtual-zoo-backend
 
-2. Once the Nestjs backend is running (on port 3000), download and run this frontend part - run `npm start` while in this project's directory.
+2. Once the Nestjs backend is running (on port 3000), download and run this frontend part - run `npm install` and then `npm start` while in this project's directory.
 
 3. Visit the url shown in the terminal, e.g., `http://localhost:4200/` from a web browser.
