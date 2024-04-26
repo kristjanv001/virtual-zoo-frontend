@@ -26,7 +26,9 @@ export class HologramService {
 
   addHologram(hologramToAdd: Hologram): Observable<Hologram> {
     return this.http.post<Hologram>(this.hologramsUrl, hologramToAdd, this.httpOptions).pipe(
-      tap((newHologram: Hologram) => console.log(`added hologram ${newHologram.name}`)),
+      tap((newHologram: Hologram) => {
+        // console.log(`added hologram ${newHologram.name}`)
+      }),
       catchError(this.handleError<Hologram>("addHologram")),
     );
   }
@@ -35,8 +37,21 @@ export class HologramService {
     const url = `${this.hologramsUrl}/${id}`;
 
     return this.http.delete<Hologram>(url, this.httpOptions).pipe(
-      tap((_) => console.log(`deleted hologram id=${id}`)),
+      tap((_) => {
+        // console.log(`deleted hologram id=${id}`)
+      }),
       catchError(this.handleError<Hologram>("deleteHologram")),
+    );
+  }
+
+  updateHologram(hologram: Hologram, id: number): Observable<any> {
+    const url = `${this.hologramsUrl}/${id}`;
+
+    return this.http.patch(url, hologram, this.httpOptions).pipe(
+      tap((_) => {
+        // console.log(`updated hologram id=${id}`)
+      }),
+      catchError(this.handleError<any>("updateHologram")),
     );
   }
 

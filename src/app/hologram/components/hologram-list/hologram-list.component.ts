@@ -9,7 +9,8 @@ import { Hologram } from "../../models/hologram";
 })
 export class HologramListComponent implements OnInit {
   holograms: Hologram[] = [];
-  isConfirmDialogOpen = false;
+  isRemoveDialogOpen = false;
+  isComposerModalOpen = false;
   selectedHologram: Hologram | null = null;
 
   constructor(private hologramService: HologramService) {}
@@ -19,27 +20,54 @@ export class HologramListComponent implements OnInit {
   }
 
   addHologram(hologram: Hologram) {
-    this.holograms.push(hologram);
+    this.hologramService.addHologram(hologram).subscribe((newHologram) => {
+      this.holograms.push(newHologram);
+      this.closeComposerModal();
+    });
   }
 
-  openConfirmDialog(hologram: Hologram) {
-    this.selectedHologram = hologram;
-    this.isConfirmDialogOpen = true;
+  editHologram(updatePackage: any) {
+    const { hologram, id } = updatePackage;
+    this.hologramService.updateHologram(hologram, id).subscribe((updatedHologram) => {
+      const index = this.holograms.findIndex((h) => h.id === updatedHologram.id);
+
+      if (index !== -1) {
+        this.holograms[index] = updatedHologram;
+      }
+    });
+    this.closeComposerModal();
   }
 
-  private closeConfirmDialog() {
-    this.selectedHologram = null;
-    this.isConfirmDialogOpen = false;
-  }
-
-  onConfirm(confirmation: boolean) {
+  onRemoveConfirm(confirmation: boolean) {
     if (confirmation && this.selectedHologram) {
       this.holograms = this.holograms.filter((h) => h.id !== this.selectedHologram!.id);
       this.hologramService.deleteHologram(this.selectedHologram.id).subscribe();
-      this.closeConfirmDialog();
+      this.closeRemoveDialog();
     } else {
-      this.closeConfirmDialog();
+      this.closeRemoveDialog();
     }
+  }
+
+  openRemoveDialog(hologram: Hologram) {
+    this.selectedHologram = hologram;
+    this.isRemoveDialogOpen = true;
+  }
+
+  private closeRemoveDialog() {
+    this.selectedHologram = null;
+    this.isRemoveDialogOpen = false;
+  }
+
+  openComposerModal(hologram?: Hologram) {
+    if (hologram) {
+      this.selectedHologram = hologram;
+    }
+    this.isComposerModalOpen = true;
+  }
+
+  closeComposerModal() {
+    this.selectedHologram = null;
+    this.isComposerModalOpen = false;
   }
 
   private getHolograms(): void {

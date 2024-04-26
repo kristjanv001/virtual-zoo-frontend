@@ -1,6 +1,9 @@
-<clr-modal [(clrModalOpen)]="opened">
-  <h3 class="modal-title">Add a New Hologram</h3>
-
+<clr-modal [(clrModalOpen)]="isOpen" [clrModalClosable]="false">
+  @if (hologramToEdit) {
+  <h3 class="modal-title">Edit Hologram</h3>
+  } @else {
+  <h3 class="modal-title">Create a New Hologram</h3>
+  }
   <div class="modal-body">
     <form clrForm [formGroup]="hologramForm">
       <span class="clr-required-mark">Required Information</span>
@@ -17,9 +20,7 @@
         <label class="clr-required-mark">Weight</label>
         <input clrInput formControlName="weight" type="number" />
         <clr-control-error *clrIfError="'required'">This is a required field</clr-control-error>
-        <clr-control-error *clrIfError="'min'; error as err">
-          Must be at least {{ err.min }}
-        </clr-control-error>
+        <clr-control-error *clrIfError="'min'; error as err"> Must be at least {{ err.min }} </clr-control-error>
       </clr-input-container>
 
       <clr-input-container>
@@ -38,8 +39,11 @@
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline" (click)="closeModal()">Cancel</button>
+    <button type="button" class="btn btn-outline" (click)="cancel()">Cancel</button>
+    @if (hologramToEdit) {
+    <button type="button" class="btn btn-success" (click)="editHologram()">Save Changes</button>
+    } @else {
     <button type="button" class="btn btn-primary" (click)="addHologram()">Create</button>
+    }
   </div>
 </clr-modal>
-<button class="btn btn-primary" (click)="openModal()">New Hologram</button>
