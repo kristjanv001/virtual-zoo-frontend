@@ -18,7 +18,7 @@ export class HologramService {
   getHolograms(): Observable<Hologram[]> {
     return this.http.get<Hologram[]>(this.hologramsUrl).pipe(
       tap((_) => {
-        console.log("Fetched holograms");
+        // console.log("Fetched holograms");
       }),
       catchError(this.handleError<Hologram[]>("getHolograms", [])),
     );

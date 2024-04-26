@@ -26,7 +26,7 @@ export class HologramListComponent implements OnInit {
     });
   }
 
-  editHologram(updatePackage: any) {
+  editHologram(updatePackage: any) { // ⚠️
     const { hologram, id } = updatePackage;
     this.hologramService.updateHologram(hologram, id).subscribe((updatedHologram) => {
       const index = this.holograms.findIndex((h) => h.id === updatedHologram.id);
