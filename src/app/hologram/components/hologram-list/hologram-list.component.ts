@@ -1,4 +1,5 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Subscription } from "rxjs";
 import { HologramService } from "../../services/hologram.service";
 import { Hologram } from "../../models/hologram";
 
@@ -8,6 +9,7 @@ import { Hologram } from "../../models/hologram";
   styleUrl: "./hologram-list.component.css",
 })
 export class HologramListComponent implements OnInit {
+  private subscriptions: Subscription = new Subscription();
   holograms: Hologram[] = [];
   isRemoveDialogOpen = false;
   isComposerModalOpen = false;
@@ -19,29 +21,38 @@ export class HologramListComponent implements OnInit {
     this.getHolograms();
   }
 
-  addHologram(hologram: Hologram) {
-    this.hologramService.addHologram(hologram).subscribe((newHologram) => {
-      this.holograms.push(newHologram);
-      this.closeComposerModal();
-    });
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
-  editHologram(updatePackage: any) { // ⚠️
-    const { hologram, id } = updatePackage;
-    this.hologramService.updateHologram(hologram, id).subscribe((updatedHologram) => {
-      const index = this.holograms.findIndex((h) => h.id === updatedHologram.id);
+  addHologram(hologram: Hologram) {
+    this.subscriptions.add(
+      this.hologramService.addHologram(hologram).subscribe((newHologram) => {
+        this.holograms.push(newHologram);
+        this.closeComposerModal();
+      }),
+    );
+  }
 
-      if (index !== -1) {
-        this.holograms[index] = updatedHologram;
-      }
-    });
+  editHologram(updatePackage: any) {
+    const { hologram, id } = updatePackage;
+    this.subscriptions.add(
+      this.hologramService.updateHologram(hologram, id).subscribe((updatedHologram) => {
+        const index = this.holograms.findIndex((h) => h.id === updatedHologram.id);
+
+        if (index !== -1) {
+          this.holograms[index] = updatedHologram;
+        }
+      }),
+    );
     this.closeComposerModal();
   }
 
   onRemoveConfirm(confirmation: boolean) {
     if (confirmation && this.selectedHologram) {
       this.holograms = this.holograms.filter((h) => h.id !== this.selectedHologram!.id);
-      this.hologramService.deleteHologram(this.selectedHologram.id).subscribe();
+      this.subscriptions.add(this.hologramService.deleteHologram(this.selectedHologram.id).subscribe());
+
       this.closeRemoveDialog();
     } else {
       this.closeRemoveDialog();
@@ -71,8 +82,10 @@ export class HologramListComponent implements OnInit {
   }
 
   private getHolograms(): void {
-    this.hologramService.getHolograms().subscribe((holograms) => {
-      this.holograms = holograms;
-    });
+    this.subscriptions.add(
+      this.hologramService.getHolograms().subscribe((holograms) => {
+        this.holograms = holograms;
+      }),
+    );
   }
 }
