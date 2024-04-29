@@ -8,7 +8,7 @@ import { Hologram } from "../../models/hologram";
   templateUrl: "./hologram-list.component.html",
   styleUrl: "./hologram-list.component.css",
 })
-export class HologramListComponent implements OnInit {
+export class HologramListComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
   holograms: Hologram[] = [];
   isRemoveDialogOpen = false;
@@ -27,11 +27,13 @@ export class HologramListComponent implements OnInit {
 
   addHologram(hologram: Hologram) {
     this.subscriptions.add(
-      this.hologramService.addHologram(hologram).subscribe((newHologram) => {
-        this.holograms.push(newHologram);
-        this.closeComposerModal();
+      this.hologramService.addHologram(hologram).subscribe({
+        next: (newHologram: Hologram) => {
+          this.holograms.push(newHologram);
+        },
       }),
     );
+    this.closeComposerModal();
   }
 
   editHologram(updatePackage: any) {

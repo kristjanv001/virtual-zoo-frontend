@@ -4,7 +4,11 @@ import { Pipe, PipeTransform } from "@angular/core";
   name: "weightConversion",
 })
 export class WeightConversionPipe implements PipeTransform {
-  transform(value: number): string {
-    return `${value.toFixed(2)}`;
+  transform(value: string | number): number {
+    if (typeof value === "number") {
+      return value;
+    }
+
+    return parseFloat(value);
   }
 }

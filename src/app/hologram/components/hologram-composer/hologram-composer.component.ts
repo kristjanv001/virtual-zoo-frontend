@@ -15,7 +15,7 @@ export class HologramComposerComponent implements OnInit {
 
   hologramForm = new FormGroup({
     name: new FormControl("", [Validators.required, Validators.minLength(2), Validators.max(100)]),
-    weight: new FormControl(1, [Validators.required, Validators.min(0), Validators.max(200000000)]),
+    weight: new FormControl(1, [Validators.required, Validators.min(0), Validators.max(500_000)]),
     superPower: new FormControl("", [Validators.required, Validators.minLength(2), Validators.maxLength(500)]),
     extinctSince: new FormControl("", [Validators.maxLength(500)]),
   });

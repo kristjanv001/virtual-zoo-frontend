@@ -1,0 +1,7 @@
+<div [@fadeInOut] *ngIf="messageService.message" class="absolute bottom-2 right-5 flex">
+  <clr-alert [clrAlertType]="messageService.message.type" [clrAlertClosable]="false">
+    <clr-alert-item>
+      <span class="alert-text">{{messageService.message.text}}</span>
+    </clr-alert-item>
+  </clr-alert>
+</div>
