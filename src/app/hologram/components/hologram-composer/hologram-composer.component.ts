@@ -26,6 +26,7 @@ export class HologramComposerComponent implements OnInit {
 
   initForm() {
     if (this.hologramToEdit) {
+      console.log(this.hologramToEdit)
       this.hologramForm.patchValue(this.hologramToEdit)
     }
   }
